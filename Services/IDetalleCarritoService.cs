@@ -1,0 +1,15 @@
+﻿using MesajilApi.DTOs.DetalleCarrito;
+
+namespace MesajilApi.Services
+{
+    public interface IDetalleCarritoService
+    {
+        Task<List<DetalleCarritoResponseDto>> ObtenerTodosAsync();
+        Task<DetalleCarritoResponseDto?> ObtenerPorIdAsync(int id);
+        Task<List<DetalleCarritoResponseDto>> ObtenerPorCarritoAsync(int idCarrito);
+        Task<DetalleCarritoResponseDto> CrearAsync(DetalleCarritoCreateDto dto);
+        Task<DetalleCarritoResponseDto?> ActualizarAsync(int id, DetalleCarritoUpdateDto dto);
+        Task<bool> EliminarAsync(int id);
+        Task<DetalleCarritoResponseDto?> ObtenerPorCarritoYProductoAsync(int idCarrito, int idProducto);
+    }
+}

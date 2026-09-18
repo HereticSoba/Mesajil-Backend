@@ -1,0 +1,73 @@
+﻿using MesajilApi.DTOs.DetalleCarrito;
+using MesajilApi.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+
+namespace MesajilApi.Controllers
+{
+    [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
+    public class DetalleCarritoController : ControllerBase
+    {
+        private readonly IDetalleCarritoService _service;
+        public DetalleCarritoController(IDetalleCarritoService service)
+        {
+            _service = service;
+        }
+        [HttpGet]
+        public async Task<IActionResult> ObtenerTodos()
+        {
+            var detalles = await _service.ObtenerTodosAsync();
+            return Ok(detalles);
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ObtenerPorId(int id)
+        {
+            var detalle = await _service.ObtenerPorIdAsync(id);
+            if (detalle == null)
+                return NotFound();
+            return Ok(detalle);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Crear(DetalleCarritoCreateDto dto)
+        {
+            var detalle = await _service.CrearAsync(dto);
+            return CreatedAtAction(
+                nameof(ObtenerPorId),
+                new { id = detalle.IdDetalleCarrito },
+                detalle);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Actualizar(int id, DetalleCarritoUpdateDto dto)
+        {
+            var detalle = await _service.ActualizarAsync(id, dto);
+            if(detalle == null)
+                return NotFound();
+            return NoContent();
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            var eliminado = await _service.EliminarAsync(id);
+            if(!eliminado)
+                return NotFound();
+            return NoContent();
+        }
+        [HttpGet("carrito/{idCarrito}")]
+        public async Task<ActionResult<List<DetalleCarritoResponseDto>>> ObtenerPorCarrito(int idCarrito)
+        {
+            var detalles = await _service.ObtenerPorCarritoAsync(idCarrito);
+            return Ok(detalles);
+        }
+        [HttpGet("carrito/{idCarrito}/producto/{idProducto}")]
+        public async Task<ActionResult<DetalleCarritoResponseDto>> ObtenerPorCarritoYProducto(int idCarrito, int idProducto)
+        {
+            var detalle = await _service.ObtenerPorCarritoYProductoAsync(idCarrito, idProducto);
+            if (detalle == null)
+                return NotFound();
+            return Ok(detalle);
+        }
+    }
+}
