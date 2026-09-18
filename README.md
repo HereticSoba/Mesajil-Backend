@@ -35,3 +35,13 @@ MesajilApi/
 ├── Data/             # DbContext y configuraciones de Entity Framework
 ├── Dockerfile        # Configuración de compilación para despliegue en Render
 └── Program.cs       # Configuración del pipeline HTTP, Middleware y Servicios
+
+```
+
+---
+
+## 🔗 Repositorio y DB del Frontend
+
+La interfaz visual desarrollada en **Android Studio** y la base de datos se encuentran en:
+
+👉 **[Mesajil-AppMovil](https://github.com/HereticSoba/Mesajil-AppMovil)**
